@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net48;net462</TargetFrameworks>
+        <TargetFrameworks>net8.0;net48;net462</TargetFrameworks>
         <RootNamespace>PAMU_CDS</RootNamespace>
 
-        <LangVersion>8</LangVersion> <!-- Max version when using dotnet framework -->
+        <LangVersion>8</LangVersion>
 
         <PackageId>PAMU_CDSce</PackageId>
         <Authors>thygesteffensen</Authors>
@@ -12,13 +12,12 @@
         <RepositoryUrl>https://github.com/thygesteffensen/PAMU_CDS</RepositoryUrl>
 
         <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-        
+
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="..\ReadMe.md" Pack="true" PackagePath="\"/>
-        <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.29" />
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
@@ -26,7 +25,16 @@
         <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Sprache" Version="2.3.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net48'">
+        <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.29" />
         <PackageReference Include="XrmMockup365" Version="1.12.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net48'">
+        <PackageReference Include="Microsoft.PowerPlatform.Dataverse.Client" Version="1.2.10" />
+        <PackageReference Include="XrmMockup365" Version="1.17.9" />
     </ItemGroup>
 
     <ItemGroup Condition="$(UsePowerAutomateMockUpLocal) == 'true'">
@@ -36,5 +44,5 @@
     <ItemGroup Condition="$(UsePowerAutomateMockUpLocal) == 'false'">
         <PackageReference Include="PowerAutomateMockUp" Version="2.0.0" />
     </ItemGroup>
-    
+
 </Project>

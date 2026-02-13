@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net48;net462</TargetFrameworks>
+        <TargetFrameworks>net8.0;net48;net462</TargetFrameworks>
 
         <IsPackable>false</IsPackable>
 
@@ -9,7 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.29" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
         <PackageReference Include="Moq" Version="4.15.2" />
         <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
@@ -18,7 +17,16 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net48'">
+        <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.29" />
         <PackageReference Include="XrmMockup365" Version="1.12.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net48'">
+        <PackageReference Include="Microsoft.PowerPlatform.Dataverse.Client" Version="1.2.10" />
+        <PackageReference Include="XrmMockup365" Version="1.17.9" />
     </ItemGroup>
 
     <ItemGroup>
