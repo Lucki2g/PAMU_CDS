@@ -7,7 +7,7 @@
         <LangVersion>8</LangVersion>
 
         <PackageId>PAMU_CDSce</PackageId>
-        <Authors>thygesteffensen</Authors>
+        <Authors>thygesteffensen,lucki2g</Authors>
         <PackageDescription>This is a battery included mock for the Power Automate connector: Common Data Service (current environment)</PackageDescription>
         <RepositoryUrl>https://github.com/thygesteffensen/PAMU_CDS</RepositoryUrl>
 
