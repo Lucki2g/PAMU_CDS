@@ -34,18 +34,19 @@ namespace PAMU_CDS
 
         public void AddFlows(Uri flowFolderPath)
         {
-            if (Directory.Exists(flowFolderPath.AbsolutePath))
+            var localPath = flowFolderPath.LocalPath;
+            if (Directory.Exists(localPath))
             {
-                var files = Directory.GetFiles(flowFolderPath.AbsolutePath);
+                var files = Directory.GetFiles(localPath);
 
                 foreach (var file in files)
                 {
                     _triggers.AddTo(file);
                 }
             }
-            else if (File.Exists(flowFolderPath.AbsolutePath))
+            else if (File.Exists(localPath))
             {
-                _triggers.AddTo(flowFolderPath.AbsolutePath);
+                _triggers.AddTo(localPath);
             }
             else
             {
@@ -99,7 +100,7 @@ namespace PAMU_CDS
                 state.AddTriggerOutputs(currentEntity.ToValueContainer());
 
                 var flowRunner = scope.ServiceProvider.GetRequiredService<IFlowRunner>();
-                flowRunner.InitializeFlowRunner(triggerSkeleton.FlowDescription.AbsolutePath);
+                flowRunner.InitializeFlowRunner(triggerSkeleton.FlowDescription.LocalPath);
                 await flowRunner.Trigger();
             }
         }

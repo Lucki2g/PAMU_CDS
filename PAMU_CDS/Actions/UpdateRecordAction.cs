@@ -1,19 +1,18 @@
-﻿using System;
-using System.ServiceModel;
-using System.Threading.Tasks;
-using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using PAMU_CDS.Auxiliary;
-using Parser;
 using Parser.ExpressionParser;
 using Parser.FlowParser.ActionExecutors;
+using System;
+using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace PAMU_CDS.Actions
 {
     public class UpdateRecordAction : OpenApiConnectionActionExecutorBase
     {
-        public static readonly string[] OperationId = {"UpdateRecord"};
+        public static readonly string[] OperationId = { "UpdateRecord", "UpdateOnlyRecord" };
 
         private readonly IOrganizationService _organizationService;
 
@@ -46,13 +45,13 @@ namespace PAMU_CDS.Actions
                 else
                 {
                     return Task.FromResult(new ActionResult
-                        {ActionStatus = ActionStatus.Failed, ActionExecutorException = exp});
+                    { ActionStatus = ActionStatus.Failed, ActionExecutorException = exp });
                 }
             }
             catch (Exception exp)
             {
                 return Task.FromResult(new ActionResult
-                    {ActionStatus = ActionStatus.Failed, ActionExecutorException = exp});
+                { ActionStatus = ActionStatus.Failed, ActionExecutorException = exp });
             }
 
             try
@@ -67,7 +66,7 @@ namespace PAMU_CDS.Actions
 
                     var retrievedEntity =
                         _organizationService.Retrieve(entity.LogicalName, entity.Id, new ColumnSet(true));
-                    
+
                     result.ActionOutput = retrievedEntity.ToValueContainer();
                     result.ActionStatus = ActionStatus.Succeeded;
                 }
@@ -77,7 +76,7 @@ namespace PAMU_CDS.Actions
 
                     var retrievedEntity =
                         _organizationService.Retrieve(entity.LogicalName, entity.Id, new ColumnSet(true));
-                    
+
                     result.ActionOutput = retrievedEntity.ToValueContainer();
                     result.ActionStatus = ActionStatus.Succeeded;
                 }
@@ -86,12 +85,12 @@ namespace PAMU_CDS.Actions
             {
                 // We need to do some experiments on how the error handling works. Take a look at one of your customers.
                 return Task.FromResult(new ActionResult
-                    {ActionStatus = ActionStatus.Failed, ActionExecutorException = exp});
+                { ActionStatus = ActionStatus.Failed, ActionExecutorException = exp });
             }
             catch (FaultException exp)
             {
                 return Task.FromResult(new ActionResult
-                    {ActionStatus = ActionStatus.Failed, ActionExecutorException = exp});
+                { ActionStatus = ActionStatus.Failed, ActionExecutorException = exp });
             }
 
             return Task.FromResult(result);
